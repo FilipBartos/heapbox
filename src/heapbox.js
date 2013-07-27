@@ -19,13 +19,13 @@
         
 	    /* Settings */
 	    this.element = element;
-            this.options = $.extend( {}, defaults, options );
-            this._defaults = defaults;
-            this._name = pluginName;
+        this.options = $.extend( {}, defaults, options );
+        this._defaults = defaults;
+        this._name = pluginName;
 	    this.instance;
 	    this.callbackManager = new Array();
 
-            this.init();
+        this.init();
     }
 
     Plugin.prototype = {
@@ -329,6 +329,12 @@
 	},
 	_hideSelect: function() {
 		$(this.element).css("display","none");
+	},
+	hide: function() {	
+		$("div#heapbox_"+this.instance.heapId).css("visibility","hidden");
+	},
+	show: function() {
+		$("div#heapbox_"+this.instance.heapId).css("visibility","visible");
 	}
     };
 
@@ -343,14 +349,20 @@
 	    {
 		heapBoxInst = $.data(this, "plugin_" + pluginName);
 
-		switch(options)
-		{
-		case "update":
-			heapBoxInst._update();
-			break;
-		case "set":
-			heapBoxInst._setData(optional);
-			break;
+			switch(options)
+			{
+			case "update":
+				heapBoxInst._update();
+				break;
+			case "set":
+				heapBoxInst._setData(optional);
+				break;
+			case "hide":
+				heapBoxInst.hide();
+				break;
+			case "show":
+				heapBoxInst.show();
+				break;
 		}
 	    }	
         });
