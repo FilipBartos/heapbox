@@ -3,11 +3,10 @@
 
     var pluginName = "heapbox",
         defaults = {
-            theme: "darksky",
 	    effect: {
-		"type": "slide",
-		"speed": "slow"
-            },
+		  "type": "slide",
+		  "speed": "slow"
+        },
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
