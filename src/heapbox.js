@@ -29,6 +29,9 @@
 
     Plugin.prototype = {
 
+    /*
+	 * Heapbox init
+	*/
     init: function() {       
 		this.instance = this.createInstance();
 		this.remapOptions();
@@ -50,10 +53,18 @@
 		this._createElements();
 
 	    },
+
+	/*
+	 * Set global events
+	*/
 	_setEvents: function() {
 		var self = this;
 		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});   
 	},
+
+	/*
+	 * Create heapbox html structure
+	*/
     _createElements: function() {
 
 		var self = this;
@@ -102,6 +113,10 @@
 		this.heapBoxEl = heapBoxEl;
 		
         },
+
+   	/*
+	 * Get options from selectbox
+	*/     
 	_getheap: function() {
 		
 		var self = this;
@@ -149,14 +164,14 @@
 	*/
 	_handlerClicked: function(stageReady) {
 		
-		if(this.instance.state) {
+		if(this.instance.state)
+		{
 	           this._closeheap();
 		}
 		else
 		{
 		  if(!stageReady) this._closeOthers();
 		  else this._openheap();
-		  //!stageReady ? :this._openheap();
 		}
 	},
 
@@ -171,7 +186,6 @@
 		holderEl.attr("rel",$(clickedEl).attr("rel"));
 		this._closeheap(true,function(){},function(){});
 
-		//todo
 		$(this.element).val($(clickedEl).attr("rel"));
 		this.options.onChange($(clickedEl).attr("rel"));
 	},
