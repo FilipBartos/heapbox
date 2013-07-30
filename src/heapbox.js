@@ -161,12 +161,10 @@
 		
 		if(this.instance.state)
 		{
-	           this._closeheap();
-
+	       this._closeheap();
 		}
 		else
 		{
-			console.log("now");
 		  if(!stageReady) this._closeOthers();
 		  else this._openheap();
 		}
