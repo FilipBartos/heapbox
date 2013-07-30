@@ -74,6 +74,8 @@
 			data: {'sourceElement':this.element}
 		});
 
+		heapBoxheapEl = this._getheap();
+
 		heapBoxHolderEl = $('<a/>', {  
 	       	href: '#',
 			class: 'holder',
@@ -94,17 +96,10 @@
 			   self._handlerClicked();
 			}
 		});
-
-		heapBoxheapEl = $('<div/>', {  
-			class: 'heap'
-		});
-
-		heapBoxheapOptionsEl = $('<ul/>', {  
-			class: 'heapOptions'
-		});
-	
-		heapBoxheapEl = this._getheap();
 		
+		//create method for getting handler and holder with events
+		//addicted to heap options number
+
 		heapBoxEl.append(heapBoxHolderEl);		
 		heapBoxEl.append(heapBoxHandlerEl);
 		heapBoxEl.append(heapBoxHandlerEl);
@@ -130,7 +125,7 @@
 		});
 	
 		heapBoxheapEl.append(heapBoxheapOptionsEl);
-
+		
 		$(this.element).children().each(function(){
 			
 			heapBoxOptionLiEl = $('<li/>', {  
@@ -154,7 +149,7 @@
 
 		heapBoxheapEl.append(heapBoxheapOptionsEl);
 		
-		
+		//return $(this.element).children().length == 0 ? false : heapBoxheapEl;
 		return heapBoxheapEl;
 
 	},
@@ -200,9 +195,10 @@
 	*/
 	_closeheap: function(internal,closeStartEvent,closeCompleteEvent) {
 		
+		heapEl = $("#heapbox_"+this.instance.heapId).find(".heap");	
+		if(heapEl.is(":animated") && !internal) return false;	
 		this.instance.state = false;
-		heapEl = $("#heapbox_"+this.instance.heapId).find(".heap");		
-		
+
 		if(internal){
 		  closeStartEvent = closeStartEvent;
 		  closeCompleteEvent = closeCompleteEvent;
@@ -236,8 +232,9 @@
 	*/
 	_openheap: function() {
 		
-		this.instance.state = true;
 		heapEl = $("#heapbox_"+this.instance.heapId).find(".heap");		
+		if(heapEl.is(":animated") && !internal) return false;
+		this.instance.state = true;
 		
 		this.options.openStart.call();
 
