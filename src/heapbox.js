@@ -162,9 +162,11 @@
 		if(this.instance.state)
 		{
 	           this._closeheap();
+
 		}
 		else
 		{
+			console.log("now");
 		  if(!stageReady) this._closeOthers();
 		  else this._openheap();
 		}
@@ -233,7 +235,7 @@
 	_openheap: function() {
 		
 		heapEl = $("#heapbox_"+this.instance.heapId).find(".heap");		
-		if(heapEl.is(":animated") && !internal) return false;
+		if(heapEl.is(":animated")) return false;
 		this.instance.state = true;
 		
 		this.options.openStart.call();
