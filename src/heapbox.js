@@ -59,7 +59,21 @@
 	*/
 	_setEvents: function() {
 		var self = this;
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+
 		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});   
+	
+		heapBoxEl.find(".holder").click(function(e){
+			   e.preventDefault();
+			   e.stopPropagation();
+			   self._handlerClicked();
+		});
+	
+		heapBoxEl.find(".handler").click(function(e){
+			   e.preventDefault();
+			   e.stopPropagation();
+			   self._handlerClicked();
+		});
 	},
 
 	/*
@@ -79,27 +93,14 @@
 		heapBoxHolderEl = $('<a/>', {  
 	       	href: '#',
 			class: 'holder',
-			text: $(this.element).children().first().text(),
-			click: function(e){
-			   e.preventDefault();
-			   e.stopPropagation();
-			   self._handlerClicked();
-			}
+			text: $(this.element).children().first().text()			   
 		});
 
 		heapBoxHandlerEl = $('<a/>', {  
 	       	href: '#',
-			class: 'handler',
-			click: function(e){
-			   e.preventDefault();
-			   e.stopPropagation();
-			   self._handlerClicked();
-			}
+			class: 'handler'
 		});
 		
-		//create method for getting handler and holder with events
-		//addicted to heap options number
-
 		heapBoxEl.append(heapBoxHolderEl);		
 		heapBoxEl.append(heapBoxHandlerEl);
 		heapBoxEl.append(heapBoxHandlerEl);
@@ -353,6 +354,15 @@
 		heapBoxEl.find(".holder").click(function(e){e.preventDefault();})
 		heapBoxEl.find(".handler").unbind('click');
 		heapBoxEl.find(".handler").click(function(e){e.preventDefault();})
+		
+		return this;
+	},
+	enable: function() {
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+		heapBoxEl.removeClass("disabled");
+		this._setEvents();
+
+		return this;
 	}
     };
 
@@ -383,6 +393,9 @@
 				break;
 			case "disable":
 				heapBoxInst.disable();
+				break;
+			case "enable":
+				heapBoxInst.enable();
 				break;
 		}
 
