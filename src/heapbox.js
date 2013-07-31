@@ -12,7 +12,7 @@
 	    openComplete: function(){},
 	    closeStart: function(){},
 	    closeComplete: function(){},
-	    onChange: function(){},
+	    onChange: function(){}
         };
 
     function Plugin( element, options ) {
@@ -45,7 +45,7 @@
 	createInstance: function() {
          return {
 	          heapId: Math.round(Math.random() * 99999999),
-		      state: false,
+		      state: false
 		 };
 	 },
 
@@ -66,7 +66,7 @@
 		var self = this;
 		heapBoxEl = $('<div/>', {  
 			id: 'heapbox_'+this.instance.heapId,
-			class: 'heapBox',
+			'class': 'heapBox',
 			data: {'sourceElement':this.element}
 		});
 
@@ -77,7 +77,7 @@
 
 		heapBoxHandlerEl = $('<a/>', {  
 	       	href: '',
-			class: 'handler'
+			'class': 'handler'
 		});
 		
 		heapBoxEl.append(heapBoxHolderEl);		
@@ -151,11 +151,11 @@
 		var self = this;
 	
 		heapBoxheapEl = $('<div/>', {  
-			class: 'heap'
+			'class': 'heap'
 		});
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
-			class: 'heapOptions'
+			'class': 'heapOptions'
 		});
 	
 		heapBoxheapEl.append(heapBoxheapOptionsEl);
@@ -163,7 +163,7 @@
 		$(this.element).children().each(function(){
 			
 			heapBoxOptionLiEl = $('<li/>', {  
-				class: 'heapOption'
+				'class': 'heapOption'
 			});
 
 			heapBoxheapOptionAEl = $('<a/>', {  
@@ -190,7 +190,7 @@
 	{
 		heapBoxHolderEl = $('<a/>', {  
 	       	href: '',
-			class: 'holder',
+			'class': 'holder',
 			text: isHeapEmpty ? this.options.emptyMessage : $(this.element).children().first().text()	   
 		});
 
