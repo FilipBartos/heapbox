@@ -7,6 +7,7 @@
 		  "type": "slide",
 		  "speed": "slow"
         },
+        emptyMessage: 'Empty',
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -34,8 +35,7 @@
 	*/
     init: function() {       
 		this.instance = this.createInstance();
-		this.remapOptions();
-		$(this.element).before(this.heapBoxEl);
+		this._createElements();
 		this._hideSelect();
 		this._setEvents();
 	},
@@ -47,33 +47,15 @@
 	          heapId: Math.round(Math.random() * 99999999),
 		      state: false,
 		 };
-	    },
-	remapOptions: function() {
-		
-		this._createElements();
-
-	    },
+	 },
 
 	/*
-	 * Set global events
+	 * Set events
 	*/
 	_setEvents: function() {
 		var self = this;
-		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
 
 		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});   
-	
-		heapBoxEl.find(".holder").click(function(e){
-			   e.preventDefault();
-			   e.stopPropagation();
-			   self._handlerClicked();
-		});
-	
-		heapBoxEl.find(".handler").click(function(e){
-			   e.preventDefault();
-			   e.stopPropagation();
-			   self._handlerClicked();
-		});
 	},
 
 	/*
@@ -89,12 +71,9 @@
 		});
 
 		heapBoxheapEl = this._getheap();
+		isHeapEmpty = heapBoxheapEl == null ? true : false;
 
-		heapBoxHolderEl = $('<a/>', {  
-	       	href: '',
-			class: 'holder',
-			text: $(this.element).children().first().text()			   
-		});
+		heapBoxHolderEl = this._createHolder(isHeapEmpty)
 
 		heapBoxHandlerEl = $('<a/>', {  
 	       	href: '',
@@ -107,8 +86,62 @@
 
 		heapBoxEl.append(heapBoxheapEl);
 		this.heapBoxEl = heapBoxEl;
-		
+		$(this.element).before(this.heapBoxEl);
+		this._setHeapboxControlsEvents(isHeapEmpty);
         },
+
+	/*
+	 * Set events for heapbox controls
+	*/     
+	_setHeapboxControlsEvents: function(isHeapEmpty) {
+
+		this._setHeapboxHolderEvents(isHeapEmpty);
+		this._setHeapboxHandlerEvents(isHeapEmpty);
+	},
+
+	/*
+	 * Set events to heapbox holder control
+	*/     
+	_setHeapboxHolderEvents: function(isHeapEmpty) {
+		
+		var self = this;
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+
+		if(isHeapEmpty)
+		{
+			heapBoxEl.find(".holder").click(function(e){e.preventDefault();});
+		}
+		else
+		{
+			heapBoxEl.find(".holder").click(function(e){
+			   e.preventDefault();
+			   e.stopPropagation();
+			   self._handlerClicked();
+			   });
+		}
+	},
+
+	/*
+	 * Set events to heapbox handler control
+	*/   
+	_setHeapboxHandlerEvents: function(isHeapEmpty) {
+	
+		var self = this;
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+
+		if(isHeapEmpty)
+		{
+			heapBoxEl.find(".handler").click(function(e){e.preventDefault();});
+		}
+		else
+		{
+			heapBoxEl.find(".handler").click(function(e){
+			   e.preventDefault();
+			   e.stopPropagation();
+			   self._handlerClicked();
+			   });
+		}
+	},
 
    	/*
 	 * Get options from selectbox
@@ -150,11 +183,19 @@
 
 		heapBoxheapEl.append(heapBoxheapOptionsEl);
 		
-		//return $(this.element).children().length == 0 ? false : heapBoxheapEl;
-		return heapBoxheapEl;
-
+		return $(this.element).children().length == 0 ? null : heapBoxheapEl;
 	},
 
+	_createHolder: function(isHeapEmpty)
+	{
+		heapBoxHolderEl = $('<a/>', {  
+	       	href: '',
+			class: 'holder',
+			text: isHeapEmpty ? this.options.emptyMessage : $(this.element).children().first().text()	   
+		});
+
+		return heapBoxHolderEl;
+	},
 	/*
 	 * Selectbox open-close handler
 	*/
@@ -176,7 +217,6 @@
 	*/
 	_heapChanged: function(self,clickedEl) {
 	
-
 		holderEl = $("#heapbox_"+this.instance.heapId).find(".holder");
 		holderEl.text($(clickedEl).text());
 		holderEl.attr("rel",$(clickedEl).attr("rel"));
@@ -216,6 +256,7 @@
 			heapEl.fadeOut(this.options.effect.speed,closeCompleteEvent);	
 			break;
 		  case "slide":
+
 			heapEl.slideUp(this.options.effect.speed,closeCompleteEvent);	
 			break;
 		  case "standard":
@@ -360,7 +401,7 @@
 	enable: function() {
 		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
 		heapBoxEl.removeClass("disabled");
-		this._setEvents();
+		this._setHeapboxControlsEvents();
 
 		return this;
 	}
