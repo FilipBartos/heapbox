@@ -309,7 +309,7 @@
 	/*
 	 * Data setter
 	*/
-	_setData: function(jsonOptions) {
+	setData: function(jsonOptions) {
 		self = this;
 		var jsonData = jQuery.parseJSON(jsonOptions);
 		$(this.element).find("option").remove();
@@ -324,13 +324,13 @@
 			$(self.element).append(option);	
 		});
 
-		this._update();
+		this.update();
 	},
 
 	/*
 	 * Selectbox update
 	*/
-	_update: function() {
+	update: function() {
 	
 		heap = this._getheap();
 		$("div#heapbox_"+this.instance.heapId+" .heap").remove();
@@ -380,10 +380,10 @@
 			switch(options)
 			{
 			case "update":
-				heapBoxInst._update();
+				heapBoxInst.update();
 				break;
 			case "set":
-				heapBoxInst._setData(optional);
+				heapBoxInst.setData(optional);
 				break;
 			case "hide":
 				heapBoxInst.hide();
@@ -397,7 +397,7 @@
 			case "enable":
 				heapBoxInst.enable();
 				break;
-		}
+			}
 
 	    }	
         });
