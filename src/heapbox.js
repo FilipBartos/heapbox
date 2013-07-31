@@ -345,6 +345,14 @@
 	},
 	show: function() {
 		$("div#heapbox_"+this.instance.heapId).css("visibility","visible");
+	},
+	disable: function() {
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+		heapBoxEl.addClass("disabled");
+		heapBoxEl.find(".holder").unbind('click');
+		heapBoxEl.find(".holder").click(function(e){e.preventDefault();})
+		heapBoxEl.find(".handler").unbind('click');
+		heapBoxEl.find(".handler").click(function(e){e.preventDefault();})
 	}
     };
 
@@ -373,7 +381,11 @@
 			case "show":
 				heapBoxInst.show();
 				break;
+			case "disable":
+				heapBoxInst.disable();
+				break;
 		}
+
 	    }	
         });
     };
