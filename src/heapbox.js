@@ -91,13 +91,13 @@
 		heapBoxheapEl = this._getheap();
 
 		heapBoxHolderEl = $('<a/>', {  
-	       	href: '#',
+	       	href: '',
 			class: 'holder',
 			text: $(this.element).children().first().text()			   
 		});
 
 		heapBoxHandlerEl = $('<a/>', {  
-	       	href: '#',
+	       	href: '',
 			class: 'handler'
 		});
 		
@@ -134,13 +134,13 @@
 			});
 
 			heapBoxheapOptionAEl = $('<a/>', {  
-				href: '#',
+				href: '',
 				rel: $(this).attr('value'),
 				title: $(this).text(),
 				text: $(this).text(),
 				click: function(e){
 			   	    e.preventDefault();
-			            e.stopPropagation();
+			        e.stopPropagation();
 				    self._heapChanged(self,this);
 				}
 			});
