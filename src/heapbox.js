@@ -260,7 +260,8 @@
 			heapEl.slideUp(this.options.effect.speed,closeCompleteEvent);	
 			break;
 		  case "standard":
-			heapEl.hide(this.options.effect.speed,closeCompleteEvent);	
+			heapEl.css("display","none");
+ 			closeCompleteEvent.call();
 			break;
 		  default: 
 			heapEl.slideUp(this.options.effect.speed,closeCompleteEvent);	
@@ -289,7 +290,8 @@
 			heapEl.slideDown(this.options.effect.speed,this.options.openComplete);	
 			break;
 		  case "standard":
-			heapEl.show(this.options.effect.speed,this.options.openComplete);	
+			heapEl.css("display","block");
+ 			this.options.openComplete.call();
 			break;
 		  default: 
 			heapEl.slideDown(this.options.effect.speed,this.options.openComplete);	
