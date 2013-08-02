@@ -1,0 +1,41 @@
+{
+    "name": "heapbox",
+    "title": "HeapBox",
+    "description": "Customizable replacement for <selectbox> with events, callbacks, themes and much more.",
+    "keywords": [
+        "select",
+        "selectbox",
+        "heapbox",
+        "form",
+        "forms",
+        "option",
+        "design",
+        "html",
+        "interface",
+        "webdesign"
+    ],
+    "version": "0.9.0",
+    "author": {
+        "name": "Filip Bartos",
+        "email": "filip@bartos.me"
+    },
+    "maintainers": [
+        {
+            "name": "Filip Bartos",
+            "email": "filip@bartos.me"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/filipbartos/heapbox/LICENSE"
+        }
+    ],
+    "bugs": "https://github.com/filipbartos/heapbox/issues",
+    "homepage": "http://www.bartos.me/heapbox",
+    "docs": "http://www.bartos.me/heapbox",
+    "demo": "http://www.bartos.me/heapbox",
+    "dependencies": {
+        "jquery": ">=1.7"
+    }
+}
