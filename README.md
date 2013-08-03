@@ -12,7 +12,9 @@ Include the jquery and heapbox in your head:
 
 Include one chosen heapbox theme style:
 
+<pre>
 &lt;link rel="stylesheet" href="themes/dark/css/dark.css" type="text/css" media="screen" /&gt;
+</pre>
 
 Create selectbox:
 
