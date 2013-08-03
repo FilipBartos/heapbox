@@ -28,6 +28,7 @@ width:150px;
 overflow:hidden;
 background:#8e44ad;
 text-indent:20px;
+height:35px;
 }
 
 .heapBox .handler
@@ -66,6 +67,7 @@ display:block;
 z-index:20;
 position:relative;
 display:block;
+height:35px;
 }
 
 .heapBox .heap .heapOptions .heapOption a{
