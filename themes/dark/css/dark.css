@@ -78,6 +78,7 @@ display:block;
 z-index:20;
 position:relative;
 display:block;
+height:35px;
 }
 
 .heapBox .heap .heapOptions .heapOption a{
