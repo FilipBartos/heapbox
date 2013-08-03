@@ -1,7 +1,7 @@
 {
     "name": "heapbox",
     "title": "HeapBox",
-    "description": "Customizable replacement for <selectbox> with events, callbacks, themes and much more.",
+    "description": "Customizable replacement for html selectboxes with events, callbacks, themes and much more.",
     "keywords": [
         "select",
         "selectbox",
