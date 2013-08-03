@@ -3,9 +3,40 @@ HeapBox is plugin for jQuery that replace native HTML selectboxes in your webpag
 
 <h2>Quick install</h2>
 
+Include the jquery and heapbox in your head:
+
+<pre>
+&lt;script src="js/jquery.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="js/heapbox.js" type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+
+Include one chosen heapbox theme style:
+
+&lt;link rel="stylesheet" href="themes/dark/css/dark.css" type="text/css" media="screen" /&gt;
+
+Create selectbox:
+
+<pre>
+&lt;select id="mySelect"&gt;
+    &lt;option value="value1"&gt;Value 1&lt;/option&gt;
+    &lt;option value="value2"&gt;Value 2&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+
+Init heapbox:
+
+<pre>
+$("#mySelect").heapbox();
+</pre>
+
 
 <h2>Using</h2>
 
+Basic heapbox without any configuration.
+
+<pre>
+$("#mySelect1").heapbox();
+</pre>
 
 See more examples at <a href="http://www.bartos.me/heapbox" title="HeapBox">www.bartos.me/heapbox</a>.
 
