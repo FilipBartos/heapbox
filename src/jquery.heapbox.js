@@ -233,7 +233,7 @@ HeapBox
     	return jsonText;
     },
 	/*
-	 * Set events for heapbox controls
+	 * Check if heap is empty
 	*/     
 	_isHeapEmpty: function() {
 		var length = $("div#heapbox_"+this.instance.heapId+" .heap ul li").length;
@@ -259,6 +259,9 @@ HeapBox
 		this.isSourceElementSelect = $(this.element).is("select");
 	},
 
+	/*
+	 * Refresh source selectbox
+	 */
 	_refreshSourceSelectbox: function(data) {
 		var self = this;
 
@@ -276,6 +279,9 @@ HeapBox
 		});	
 	},
 
+	/*
+	 * Change selected option 
+	 */
 	_setSelectedOption: function(value) {
 		var self = this;
 		this._deselectSelectedOptions();
@@ -284,6 +290,9 @@ HeapBox
 		$(this.element).find("option[value="+value+"]").attr("selected","selected");
 	},
 
+	/*
+	 * Remove selected attribute from all options in source selectbox
+	 */
 	_deselectSelectedOptions: function() {
 		select = $(this.element).find("option");
 
@@ -377,7 +386,7 @@ HeapBox
 
 
 	/*
-	 *
+	 * Add class "selected" to selected option in heapbox
 	 */
 	_setSelected: function(selectedEl) {
 		this._deselectAll();
@@ -516,9 +525,6 @@ HeapBox
 		this._setEvents();
 	},
 
-	/*
-	 * Selectbox update
-	*/
 	update: function() {
 		this._setDefaultValues();	
 	},
