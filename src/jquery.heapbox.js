@@ -160,7 +160,7 @@ HeapBox
     	var self = this;
 		var _data = jQuery.parseJSON(data);
 
-		this._refreshSourceSelectbox(_data);
+		if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
 			'class': 'heapOptions'
