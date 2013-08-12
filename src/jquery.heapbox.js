@@ -11,6 +11,7 @@ HeapBox
 		  "type": "slide",
 		  "speed": "slow"
         },
+        insert: "before",
         emptyMessage: 'Empty',
 	    openStart: function(){},
 	    openComplete: function(){},
@@ -43,7 +44,6 @@ HeapBox
 		this._createElements();
 		this._hideSourceElement();
 		this._setDefaultValues();
-
 	},
 
 	/*
@@ -97,7 +97,32 @@ HeapBox
 
 		heapBoxEl.append(heapBoxheapEl);
 		this.heapBoxEl = heapBoxEl;
-		$(this.element).before(this.heapBoxEl);
+		this._insertHeapbox(this.heapBoxEl);
+    },
+
+	/*
+	 * Insert heapbox
+	*/
+    _insertHeapbox: function(heapbox) {
+	
+    if(this.isSourceElementSelect && this.options.insert == "inside")
+    	this.options.insert = "before";
+
+	switch(this.options.insert) {
+		
+		  case "before":
+			$(this.element).before(heapbox);
+			break;
+		  case "after":
+			$(this.element).after(heapbox);
+			break;
+		  case "inside":
+			$(this.element).html(heapbox);
+			break;
+		  default: 
+			$(this.element).before(heapbox);
+			break;
+		}
     },
 
     /*
