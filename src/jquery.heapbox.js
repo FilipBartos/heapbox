@@ -1,7 +1,8 @@
 /*
-HeapBox
+HeapBox 0.9.1
 (c) 2013 Filip Bartos
 */
+
 
 ;(function ( $, window, document, undefined ) {
 
