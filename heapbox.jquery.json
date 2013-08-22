@@ -1,7 +1,7 @@
 {
     "name": "heapbox",
     "title": "HeapBox",
-    "description": "Customizable replacement for html selectboxes with events, callbacks, themes and much more.",
+    "description": "Customizable replacement for html select (not only) with events, callbacks, themes and much more.",
     "keywords": [
         "select",
         "selectbox",
@@ -12,9 +12,10 @@
         "design",
         "html",
         "interface",
-        "webdesign"
+        "webdesign",
+        "dropdown"
     ],
-    "version": "0.9.0",
+    "version": "0.9.1",
     "author": {
         "name": "Filip Bartos",
         "email": "filip@bartos.me"
