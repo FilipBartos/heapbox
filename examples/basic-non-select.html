@@ -14,7 +14,9 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
  		
-		$(".basic-example").heapbox();
+	$(".basic-non-select-example").heapbox();
+	json = '[{"value":"value_1","text":"Value 1"},{"value":"value_2","text":"Value 2"}]';
+	$(".basic-non-select-example").heapbox("set",json);
 
 	});
 	</script>
@@ -22,13 +24,9 @@
 
 <body>
 
-<h1>Basic HeapBox example</h1>
+<h1>Basic non-select HeapBox example</h1>
 
-<select class="basic-example">
-	<option val="option1">First option</option>
-	<option val="option2">Second option</option>
-	<option val="option3">Third option</option>
-</select>
+<div class="basic-non-select-example"></div>
 
 </body>
 
