@@ -39,10 +39,10 @@ HeapBox
 	 * Heapbox init
 	*/
     init: function() {       
+		this._hideSourceElement();
     	this._isSourceSelectbox();
 		this.instance = this.createInstance();
 		this._createElements();
-		this._hideSourceElement();
 		this._setDefaultValues();
 	},
 
@@ -118,6 +118,7 @@ HeapBox
 			break;
 		  case "inside":
 			$(this.element).html(heapbox);
+			this._showSourceElement();
 			break;
 		  default: 
 			$(this.element).before(heapbox);
@@ -555,6 +556,9 @@ HeapBox
 	},
 	_hideSourceElement: function() {
 		$(this.element).css("display","none");
+	},
+	_showSourceElement: function() {
+		$(this.element).css("display","block");
 	},
 	hide: function() {	
 		$("div#heapbox_"+this.instance.heapId).css("visibility","hidden");
