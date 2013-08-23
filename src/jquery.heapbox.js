@@ -314,7 +314,7 @@ HeapBox 0.9.1
 		this._deselectSelectedOptions();
 
 		$(this.element).val(value);
-		$(this.element).find("option[value="+value+"]").attr("selected","selected");
+		$(this.element).find("option[value='"+value+"']").attr("selected","selected");
 	},
 
 	/*
