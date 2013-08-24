@@ -3,6 +3,8 @@ HeapBox 0.9.1
 (c) 2013 Filip Bartos
 */
 
+// otestovat udalosti na empty
+
 
 ;(function ( $, window, document, undefined ) {
 
@@ -14,6 +16,7 @@ HeapBox 0.9.1
         },
         insert: "before",
         emptyMessage: 'Empty',
+        tabindex: 'undefined',
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -63,10 +66,75 @@ HeapBox 0.9.1
 	_setEvents: function() {
 		var self = this;
 		this._setControlsEvents();
+		this._setKeyboardEvents();
 
 		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});   
 	},
 
+	_setKeyboardEvents: function() {
+		
+		var self = this;
+
+		heapbox = $("#heapbox_"+this.instance.heapId);
+
+		$(heapbox).keydown(function(e) {
+
+			switch(e.which)
+			{
+				case 13: self._handlerClicked();
+						 return false;
+						 break;
+				case 27: self._closeheap();
+						 break;
+				case 37: self._keyArrowUpHandler($("#heapbox_"+self.instance.heapId));
+						 e.preventDefault();
+						 e.stop();
+						 break;
+				case 39: self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));
+						 e.preventDefault();
+						 e.stop();
+						 break;
+				case 38: self._keyArrowUpHandler($("#heapbox_"+self.instance.heapId));
+						 e.preventDefault();
+						 e.stop();
+						 break;
+				case 40: self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));
+					     e.preventDefault();
+						 e.stop();
+						 break;
+			}
+		});
+	},
+
+	_keyArrowUpHandler:function(heapboxEl){
+
+		var self = this;
+	
+		heapboxEl.find("div.heap ul li").each(function(){
+			if(($(this).find("a").hasClass("selected")) && ($(this).prev().length > 0))
+			{
+				var selectItem = $(this).prev().find("a");
+				self._heapChanged(self,selectItem,true);
+			}
+				
+		});
+	},
+
+	_keyArrowDownHandler:function(heapboxEl){
+
+		var self = this;
+
+		heapboxEl.find("div.heap ul li").each(function(){
+			if(($(this).find("a").hasClass("selected")) && ($(this).next().length > 0))
+			{
+				var selectItem = $(this).next().find("a");
+				self._heapChanged(self,selectItem,true);
+				return false;
+			}
+				
+		});
+
+	},
 	/*
 	 * Create heapbox html structure
 	*/
@@ -134,6 +202,7 @@ HeapBox 0.9.1
     {
 		this._initHeap();
 		this._setHolderTitle();
+		this._setTabindex();
 		this._setEvents();
     },
 
@@ -156,7 +225,7 @@ HeapBox 0.9.1
     _setHolderTitle: function()
     {
     	var self = this;
-
+    	
 		holderEl = $("#heapbox_"+this.instance.heapId).find(".holder");
 		selectedEl = $("#heapbox_"+this.instance.heapId).find(".heap ul li a.selected").last();
 
@@ -179,6 +248,18 @@ HeapBox 0.9.1
     	}
     },
 
+    _setTabindex: function(){
+    	var tabindex;
+ 
+
+		tabindex = this.options.tabindex != "undefined" ? this.options.tabindex : $(this.element).attr("tabindex");
+
+		if(tabindex != "undefined") {
+			$("#heapbox_"+this.instance.heapId).attr("tabindex",tabindex);
+		}
+   		
+    },
+
     /*
      * Set data to heap
      */
@@ -186,6 +267,7 @@ HeapBox 0.9.1
     {
     	var self = this;
 		var _data = jQuery.parseJSON(data);
+		var selected = false;
 
 		if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
@@ -195,6 +277,7 @@ HeapBox 0.9.1
     	
     	$.each(_data,function(){
 
+    		if(this.selected) { selected = true; }
     		heapBoxOptionLiEl = $('<li/>', {  
 				'class': 'heapOption'
 			});
@@ -218,6 +301,12 @@ HeapBox 0.9.1
 
 		$("div#heapbox_"+this.instance.heapId+" .heap ul").remove();
 		$("div#heapbox_"+this.instance.heapId+" .heap").append(heapBoxheapOptionsEl);
+
+		if(selected != true){
+			$("div#heapbox_"+this.instance.heapId+" .heap ul li a").first().addClass("selected");
+		}
+
+
     },
 
     /*
@@ -291,6 +380,7 @@ HeapBox 0.9.1
 	 */
 	_refreshSourceSelectbox: function(data) {
 		var self = this;
+		var selected = false;
 
 		$(this.element).find("option").remove();
 
@@ -300,10 +390,15 @@ HeapBox 0.9.1
 			  text: this.text,
 			});
 
-			if(this.selected == "selected") option.attr("selected","selected");
+			if(this.selected){
+				option.attr("selected","selected");
+				selected = true;
+			}
 
 			$(self.element).append(option);	
 		});	
+
+		if(selected != true) $(self.element).find("option").first().attr("selected","selected");
 	},
 
 	/*
@@ -368,6 +463,7 @@ HeapBox 0.9.1
 
 		heapBoxEl.find(".holder").unbind('click');
 		heapBoxEl.find(".holder").click(function(e){e.preventDefault();})
+		heapBoxEl.unbind("keydown");
 	},
 
 	/*
@@ -393,7 +489,8 @@ HeapBox 0.9.1
 		}
 		else
 		{
-		  if(!stageReady) this._closeOthers();
+		  if(!stageReady)
+		  	this._closeOthers();
 		  else this._openheap();
 		}
 	},
@@ -401,9 +498,9 @@ HeapBox 0.9.1
 	/*
 	 * Selectbox change handler
 	*/
-	_heapChanged: function(self,clickedEl) {
-	
-		this._closeheap(true,function(){},function(){});
+	_heapChanged: function(self,clickedEl,keepOpened) {
+		
+		if(!keepOpened) this._closeheap(true,function(){},function(){});
 		this._setSelected($(clickedEl));
 		this._setHolderTitle();
 		this._setSelectedOption($(clickedEl).attr("rel"));
@@ -420,7 +517,7 @@ HeapBox 0.9.1
 		selectedEl.addClass("selected");
 	},
 
-	_deselectAll: function() {
+	_deselectAll: function(self) {
 		heapLinks = $("#heapbox_"+this.instance.heapId).find(".heap ul li a");
 		heapLinks.each(function(){
 			$(this).removeClass("selected");
