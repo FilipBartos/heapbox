@@ -95,3 +95,11 @@ background:url(../gfx/heapbox_heapitem_hover_bg.jpg) repeat-x;
 .heapBox .heap .heapOptions .heapOption a.selected{
 background:url(../gfx/heapbox_heapitem_hover_bg.jpg) repeat-x;
 }
+
+.heapBox .heap .heapOptions .heapOption a.disabled{
+	color:#777;
+}
+
+.heapBox .heap .heapOptions .heapOption a.disabled:hover{
+	background:url(../gfx/heapbox_heapitem_bg.jpg) repeat-x;
+}
