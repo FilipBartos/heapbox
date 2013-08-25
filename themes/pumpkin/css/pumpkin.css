@@ -77,6 +77,9 @@ text-indent:20px;
 }
 
 .heapBox .heap .heapOptions .heapOption a:hover{
-background:#a84403;
+	background:#a84403;	
 }
 
+.heapBox .heap .heapOptions .heapOption a.selected{
+	background:#a84403;
+}

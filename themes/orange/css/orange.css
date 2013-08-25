@@ -82,3 +82,6 @@ text-indent:20px;
 background:#d18814;
 }
 
+.heapBox .heap .heapOptions .heapOption a.selected{
+background:#d18814;
+}

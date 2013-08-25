@@ -92,3 +92,6 @@ text-indent:20px;
 background:url(../gfx/heapbox_heapitem_hover_bg.jpg) repeat-x;
 }
 
+.heapBox .heap .heapOptions .heapOption a.selected{
+background:url(../gfx/heapbox_heapitem_hover_bg.jpg) repeat-x;
+}
