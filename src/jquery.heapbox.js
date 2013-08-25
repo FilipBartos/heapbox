@@ -3,9 +3,6 @@ HeapBox 0.9.1
 (c) 2013 Filip Bartos
 */
 
-// otestovat udalosti na empty
-
-
 ;(function ( $, window, document, undefined ) {
 
     var pluginName = "heapbox",
