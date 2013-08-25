@@ -229,16 +229,15 @@ HeapBox 0.9.1
 		holderEl = $("#heapbox_"+this.instance.heapId).find(".holder");
 		selectedEl = $("#heapbox_"+this.instance.heapId).find(".heap ul li a.selected").last();
 
-    	if((!this._isHeapEmpty()) && (selectedEl.length == 0)) 
-    	{
-    		firstHeapEl = $("#heapbox_"+this.instance.heapId).find(".heap ul li a").first();
-			holderEl.text(firstHeapEl.text());
-			holderEl.attr("rel",firstHeapEl.attr("rel"));
-    	}
-    	else if(selectedEl.length != 0)
+    	if(selectedEl.length != 0)
     	{
     		holderEl.text(selectedEl.text());
     		holderEl.attr("rel",selectedEl.attr("rel"));
+    
+    		if(selectedEl.attr("data-icon-src")) {
+				iconEl = this._createIconElement(selectedEl.attr("data-icon-src"));
+				holderEl.append(iconEl);
+			}
     	}
     	else
     	{
@@ -248,6 +247,9 @@ HeapBox 0.9.1
     	}
     },
 
+    /*
+     * Set tabindex to heapbox element
+     */
     _setTabindex: function(){
     	var tabindex;
  
@@ -287,12 +289,20 @@ HeapBox 0.9.1
 				title: this.text,
 				text: this.text,
 				'class': this.selected ? 'selected':'',
-				click: function(e){
+				 click: function(e){
 			   	    e.preventDefault();
 			        e.stopPropagation();
 				    self._heapChanged(self,this);
 				}
 			});
+
+			if(this.icon)
+			{
+				heapBoxheapOptionAEl.attr('data-icon-src',this.icon);
+				heapBoxOptionIcon = self._createIconElement(this.icon);
+
+				heapBoxheapOptionAEl.append(heapBoxOptionIcon);
+			}
 			
 			heapBoxOptionLiEl.append(heapBoxheapOptionAEl);
 			heapBoxheapOptionsEl.append(heapBoxOptionLiEl);
@@ -309,6 +319,19 @@ HeapBox 0.9.1
     },
 
     /*
+     * Creat img element for icon
+     */ 
+    _createIconElement: function(iconSrc) {
+			
+		heapBoxOptionIcon = $('<img/>', {
+			src: iconSrc,
+			alt: iconSrc
+		});
+
+		return heapBoxOptionIcon;
+    },
+
+    /*
      * If source element is <select>, get options as json
      */
 
@@ -321,8 +344,10 @@ HeapBox 0.9.1
     		options.push({
     			'value': $(this).attr("value"),
     			'text': $(this).text(),
+    			'icon': $(this).attr("data-icon-src"),
     			'selected': $(this).is(":selected") ? "selected":''
     		});
+
     	});
     	
     	var jsonText = JSON.stringify(options);
