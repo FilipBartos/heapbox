@@ -73,7 +73,7 @@ HeapBox 0.9.1
 
 		heapbox = $("#heapbox_"+this.instance.heapId);
 
-		$(heapbox).keydown(function(e) {
+		heapbox.keydown(function(e) {
 
 			switch(e.which)
 			{
@@ -96,7 +96,7 @@ HeapBox 0.9.1
 						 break;
 				case 40: self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));
 					     e.preventDefault();
-						 e.stop();
+					     e.stop();
 						 break;
 			}
 		});
@@ -108,29 +108,60 @@ HeapBox 0.9.1
 		var self = this;
 	
 		heapboxEl.find("div.heap ul li").each(function(){
-			if(($(this).find("a").hasClass("selected")) && ($(this).prev().length > 0))
+			if(($(this).find("a").hasClass("selected")))
 			{
-				var selectItem = $(this).prev().find("a");
-				self._heapChanged(self,selectItem,true);
+				selectItem = self._findPrev($(this));
+
+				if(selectItem) {
+					self._heapChanged(self,selectItem,true);
+					return false;
+				}
 			}
 				
 		});
 	},
 
 	_keyArrowDownHandler:function(heapboxEl){
-
 		var self = this;
 
 		heapboxEl.find("div.heap ul li").each(function(){
-			if(($(this).find("a").hasClass("selected")) && ($(this).next().length > 0))
-			{
-				var selectItem = $(this).next().find("a");
-				self._heapChanged(self,selectItem,true);
-				return false;
+			if(($(this).find("a").hasClass("selected")))
+			{	
+				selectItem = self._findNext($(this));
+
+				if(selectItem) {
+					self._heapChanged(self,selectItem,true);
+					return false;
+				}
 			}
-				
 		});
 
+	},	
+
+	/*
+	 * Find prev selectable heapbox option (ignore disabled)
+	 */
+	_findPrev:function(startItem){
+		if(startItem.prev().length > 0){
+			if(!startItem.prev().find("a").hasClass("disabled")) {
+				return startItem.prev().find("a");
+			}else{
+				return this._findPrev(startItem.prev());
+			}
+		}
+	},
+
+	/*
+	 * Find next selectable heapbox option (ignore disabled)
+	 */
+	_findNext:function(startItem){
+		if(startItem.next().length > 0){
+			if(!startItem.next().find("a").hasClass("disabled")) {
+				return startItem.next().find("a");
+			}else{
+				return this._findNext(startItem.next());
+			}
+		}
 	},
 	/*
 	 * Create heapbox html structure
@@ -293,6 +324,15 @@ HeapBox 0.9.1
 				}
 			});
 
+			if(this.disabled) {
+				heapBoxheapOptionAEl.unbind("click");
+				heapBoxheapOptionAEl.addClass("disabled");
+				heapBoxheapOptionAEl.click(function(e){
+					e.preventDefault();
+					e.stopPropagation();
+				});
+			}
+
 			if(this.icon)
 			{
 				heapBoxheapOptionAEl.attr('data-icon-src',this.icon);
@@ -311,8 +351,6 @@ HeapBox 0.9.1
 		if(selected != true){
 			$("div#heapbox_"+this.instance.heapId+" .heap ul li a").first().addClass("selected");
 		}
-
-
     },
 
     /*
@@ -342,12 +380,14 @@ HeapBox 0.9.1
     			'value': $(this).attr("value"),
     			'text': $(this).text(),
     			'icon': $(this).attr("data-icon-src"),
+    			'disabled': $(this).attr("disabled"),
     			'selected': $(this).is(":selected") ? "selected":''
     		});
 
     	});
     	
     	var jsonText = JSON.stringify(options);
+
     	return jsonText;
     },
 
