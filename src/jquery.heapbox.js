@@ -66,7 +66,6 @@ HeapBox 0.9.1
 	_setEvents: function() {
 		var self = this;
 		this._setControlsEvents();
-		this._setKeyboardEvents();
 
 		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});   
 	},
@@ -104,6 +103,7 @@ HeapBox 0.9.1
 						 break;
 			}
 		});
+	
 	},
 
 	_keyArrowUpHandler:function(heapboxEl){
@@ -251,7 +251,6 @@ HeapBox 0.9.1
     _setTabindex: function(){
     	var tabindex;
  
-
 		tabindex = this.options.tabindex != "undefined" ? this.options.tabindex : $(this.element).attr("tabindex");
 
 		if(tabindex != "undefined") {
@@ -366,6 +365,7 @@ HeapBox 0.9.1
 		{
 			this._setHeapboxHolderEvents();
 			this._setHeapboxHandlerEvents();
+			this._setKeyboardEvents();
 		}
 	},
 	/*
@@ -464,6 +464,7 @@ HeapBox 0.9.1
 		heapBoxEl.find(".holder").unbind('click');
 		heapBoxEl.find(".holder").click(function(e){e.preventDefault();})
 		heapBoxEl.unbind("keydown");
+
 	},
 
 	/*
