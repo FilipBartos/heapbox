@@ -1,5 +1,5 @@
 /*
-HeapBox 0.9.1
+HeapBox 0.9.2
 (c) 2013 Filip Bartos
 */
 
