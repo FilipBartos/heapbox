@@ -592,7 +592,7 @@ HeapBox 0.9.2
 	*/
 	_closeheap: function(internal,closeStartEvent,closeCompleteEvent) {
 		
-		heapEl = $("#heapbox_"+this.instance.heapId).find(".heap");	
+		heapEl = $("#heapbox_"+this.instance.heapId).removeClass('open').find(".heap");	
 		if(heapEl.is(":animated") && !internal) return false;	
 		this.instance.state = false;
 
@@ -631,7 +631,7 @@ HeapBox 0.9.2
 	*/
 	_openheap: function() {
 		
-		heapEl = $("#heapbox_"+this.instance.heapId).find(".heap");		
+		heapEl = $("#heapbox_"+this.instance.heapId).addClass('open').find(".heap");	
 		if(heapEl.is(":animated")) return false;
 		this.instance.state = true;
 		
@@ -742,6 +742,13 @@ HeapBox 0.9.2
 		this._setEvents();
 
 		return this;
+	},
+	_remove: function() {
+		console.log('mop');
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+		heapBoxEl.remove();
+
+		this._showSourceElement();
 	}
     };
 
@@ -775,6 +782,9 @@ HeapBox 0.9.2
 				break;
 			case "enable":
 				heapBoxInst.enable();
+				break;
+			case "remove":
+				heapBoxInst._remove();
 				break;
 			}
 
