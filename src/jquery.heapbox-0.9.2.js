@@ -744,7 +744,6 @@ HeapBox 0.9.2
 		return this;
 	},
 	_remove: function() {
-		console.log('mop');
 		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
 		heapBoxEl.remove();
 
