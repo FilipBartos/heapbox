@@ -295,7 +295,7 @@ HeapBox 0.9.3
 
     _setHeapboxFocus: function()
     {
-    	heapbox = $("div#heapbox_"+this.instance.heapId+" .holder");
+    	heapbox = $("div#heapbox_"+this.instance.heapId);
     	heapbox.focus();
     },
 
