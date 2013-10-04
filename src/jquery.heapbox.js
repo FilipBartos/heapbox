@@ -15,6 +15,8 @@ HeapBox 0.9.3
 		heapsize: undefined,
         emptyMessage: 'Empty',
         tabindex: 'undefined',
+        showFirst: true,
+        updateText: true,
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -31,7 +33,6 @@ HeapBox 0.9.3
         this._name = pluginName;
 	    this.instance;
 	    this.callbackManager = new Array();
-
         this.init();
     }
 
@@ -140,16 +141,16 @@ HeapBox 0.9.3
 						 break;
 				case 27: self._closeheap();
 						 break;
-				case 37: self._keyArrowUpHandler($("#heapbox_"+self.instance.heapId));
+				case 37: self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"up");
 						 e.preventDefault();
 						 break;
-				case 39: self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));
+				case 39: self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"down");
 						 e.preventDefault();
 						 break;
-				case 38: self._keyArrowUpHandler($("#heapbox_"+self.instance.heapId));
+				case 38: self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"up");
 						 e.preventDefault();
 						 break;
-				case 40: self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));
+				case 40: self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"down");
 					     e.preventDefault();
 						 break;
 			}
@@ -157,32 +158,17 @@ HeapBox 0.9.3
 	
 	},
 
-	_keyArrowUpHandler:function(heapboxEl){
-
+	_keyArrowHandler:function(heapboxEl,direction){
 		var self = this;
-	
-		heapboxEl.find("div.heap ul li").each(function(){
-			if(($(this).find("a").hasClass("selected")))
-			{
-				selectItem = self._findPrev($(this));
-
-				if(selectItem) {
-					self._heapChanged(self,selectItem,true);
-					return false;
-				}
-			}	
-		});
-
-		self._setViewPosition($("#heapbox_"+self.instance.heapId));	
-	},
-
-	_keyArrowDownHandler:function(heapboxEl){
-		var self = this;
+		var selected = false;
 
 		heapboxEl.find("div.heap ul li").each(function(){
 			if(($(this).find("a").hasClass("selected")))
 			{	
-				selectItem = self._findNext($(this));
+				selected = true;
+				
+				selectItem = direction == "down" ? self._findNext($(this)):self._findPrev($(this));
+				console.log(direction);
 
 				if(selectItem) {
 					self._heapChanged(self,selectItem,true);
@@ -190,6 +176,11 @@ HeapBox 0.9.3
 				}
 			}
 		});
+
+		if(selected == false) {
+			selectItem = $("div#heapbox_"+self.instance.heapId+" .heapOptions .heapOption").first().find("a").addClass("selected");		
+			self._heapChanged(self,selectItem,true);
+		}
 
 		self._setViewPosition($("#heapbox_"+self.instance.heapId));	
 	},	
@@ -291,6 +282,7 @@ HeapBox 0.9.3
 		this._setHolderTitle();
 		this._setTabindex();
 		this._setEvents();
+		this._handleFirst();
     },
 
     _setHeapboxFocus: function()
@@ -337,6 +329,16 @@ HeapBox 0.9.3
     },
 
     /*
+     * Show or hide first option?
+     */
+     _handleFirst: function(){
+
+     	if(!this.options.showFirst){
+     		$("div#heapbox_"+this.instance.heapId+" .heapOptions .heapOption").first().remove();
+     	}
+    },
+
+    /*
      * Set title of holder
      */
     _setHolderTitle: function()
@@ -347,8 +349,10 @@ HeapBox 0.9.3
 		selectedEl = $("#heapbox_"+this.instance.heapId).find(".heap ul li a.selected").last();
 
     	if(selectedEl.length != 0)
-    	{
-    		holderEl.text(selectedEl.text());
+    	{	
+    		if(holderEl.text().length == 0) holderEl.text(selectedEl.text());
+    		if(this.options.updateText) holderEl.text(selectedEl.text());
+
     		holderEl.attr("rel",selectedEl.attr("rel"));
     
     		if(selectedEl.attr("data-icon-src")) {
@@ -435,6 +439,8 @@ HeapBox 0.9.3
 
 		$("div#heapbox_"+this.instance.heapId+" .heap ul").remove();
 		$("div#heapbox_"+this.instance.heapId+" .heap").append(heapBoxheapOptionsEl);
+
+		
 
 		this._setHeapSize();
 
@@ -636,7 +642,7 @@ HeapBox 0.9.3
 		heapBoxEl.find(".holder").click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
-			self._setHeapboxFocus();
+			$(this).focus();
 			self._handlerClicked();
 		});
 	},
