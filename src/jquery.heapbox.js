@@ -15,8 +15,8 @@ HeapBox 0.9.3
 		heapsize: undefined,
         emptyMessage: 'Empty',
         tabindex: 'undefined',
+        title: undefined,
         showFirst: true,
-        updateText: true,
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -350,8 +350,12 @@ HeapBox 0.9.3
 
     	if(selectedEl.length != 0)
     	{	
-    		if(holderEl.text().length == 0) holderEl.text(selectedEl.text());
-    		if(this.options.updateText) holderEl.text(selectedEl.text());
+    		//if(holderEl.text().length == 0) holderEl.text(selectedEl.text());
+    		if(this.options.title){
+    			holderEl.text(this.options.title);
+    		}else{
+    			holderEl.text(selectedEl.text());
+    		}
 
     		holderEl.attr("rel",selectedEl.attr("rel"));
     
