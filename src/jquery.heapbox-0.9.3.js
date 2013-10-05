@@ -854,6 +854,10 @@ HeapBox 0.9.3
 		this._setEvents();
 	},
 
+	select: function(value) {
+		heapBoxEl = $("div#heapbox_"+this.instance.heapId);
+		this._heapChanged( this, heapBoxEl.find('.heapOptions [rel="'+ value +'"]') );
+	},
 	update: function() {
 		this._setDefaultValues();	
 	},
@@ -900,6 +904,9 @@ HeapBox 0.9.3
 
 			switch(options)
 			{
+			case "select":
+				heapBoxInst.select(optional);
+			    break;
 			case "update":
 				heapBoxInst.update();
 			    break;
