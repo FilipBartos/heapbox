@@ -81,8 +81,8 @@ HeapBox 0.9.3
 
 	    heap.find(".sliderDown").mousedown(function(e){
 		   self.scrollingStatus = true;
-		   self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));
-		   self.interval = setInterval(function(){self._keyArrowDownHandler($("#heapbox_"+self.instance.heapId));},300);	
+		   self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"down");
+		   self.interval = setInterval(function(){self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"down");},300);	
 	    }).mouseup(function(e){ 
 	    	clearInterval(self.interval);
 		    self.scrollingStatus = false;
@@ -95,8 +95,8 @@ HeapBox 0.9.3
 
 	    heap.find(".sliderUp").mousedown(function(e){
 		   self.scrollingStatus = true;
-		   self._keyArrowUpHandler($("#heapbox_"+self.instance.heapId));
-		   self.interval = setInterval(function(){self._keyArrowUpHandler($("#heapbox_"+self.instance.heapId));},300);	
+		   self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"up");
+		   self.interval = setInterval(function(){self._keyArrowHandler($("#heapbox_"+self.instance.heapId),"up");},300);	
 	    }).mouseup(function(e){ 
 			clearInterval(self.interval);
 		    self.scrollingStatus = false;
@@ -168,7 +168,6 @@ HeapBox 0.9.3
 				selected = true;
 				
 				selectItem = direction == "down" ? self._findNext($(this)):self._findPrev($(this));
-				console.log(direction);
 
 				if(selectItem) {
 					self._heapChanged(self,selectItem,true);
@@ -783,6 +782,10 @@ HeapBox 0.9.3
 	*/
 	_openheap: function() {
 		
+		if(this._isHeapsizeSet()) {
+			this._setViewPosition($("div#heapbox_"+this.instance.heapId));
+		}
+
 		heapEl = $("#heapbox_"+this.instance.heapId).addClass('open').find(".heap");	
 		if(heapEl.is(":animated")) return false;
 		this.instance.state = true;
