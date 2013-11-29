@@ -54,7 +54,7 @@ HeapBox 0.9.3
 	createInstance: function() {
 
          return {
-	          heapId: Math.round(Math.random() * 99999999),
+	          heapId: $(this.element).attr('id') || Math.round(Math.random() * 99999999),
 		      state: false
 		 };		 
 	 },
