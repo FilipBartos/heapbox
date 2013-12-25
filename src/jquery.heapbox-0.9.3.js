@@ -15,6 +15,7 @@ HeapBox 0.9.3
 		heapsize: undefined,
         emptyMessage: 'Empty',
         tabindex: 'undefined',
+        inheritVisibility: true,
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -31,7 +32,7 @@ HeapBox 0.9.3
         this._name = pluginName;
 	    this.instance;
 	    this.callbackManager = new Array();
-
+		this.elem_isVisible = '';
         this.init();
     }
 
@@ -230,6 +231,11 @@ HeapBox 0.9.3
 			'class': 'heapBox',
 			data: {'sourceElement':this.element}
 		});
+
+		// Set visibility according to original <select> element
+		if ( self.options.inheritVisibility == true && self.elem_isVisible == false ) {
+			heapBoxEl.css('display','none');
+		}
 
 		heapBoxHolderEl = $('<a/>', {  
 	       	href: '',
@@ -858,6 +864,9 @@ HeapBox 0.9.3
 		this._setDefaultValues();	
 	},
 	_hideSourceElement: function() {
+		
+		// preserve original visibility of the element
+		this.elem_isVisible = $(this.element).is(':visible');
 		$(this.element).css("display","none");
 	},
 	_showSourceElement: function() {
