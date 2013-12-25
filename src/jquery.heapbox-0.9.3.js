@@ -77,6 +77,7 @@ HeapBox 0.9.3
 
 	    heap = $("#heapbox_"+this.instance.heapId+" .heap");
 	 
+	 	// Slider Down
 	    heap.find(".sliderDown").click(function(e){e.preventDefault();e.stopPropagation();self._setHeapboxFocus();});
 
 	    heap.find(".sliderDown").mousedown(function(e){
@@ -91,6 +92,7 @@ HeapBox 0.9.3
 		    self.scrollingStatus = false;
 	    });
 
+		// Slider Up
 	    heap.find(".sliderUp").click(function(e){e.preventDefault();e.stopPropagation();self._setHeapboxFocus();});
 
 	    heap.find(".sliderUp").mousedown(function(e){
@@ -156,6 +158,31 @@ HeapBox 0.9.3
 			}
 		});
 	
+	},
+	
+	/*
+	 *	Adds mouse wheel events
+	 *	@require	jquery-mousewheel
+	 *	@see 		https://github.com/brandonaaron/jquery-mousewheel
+	 */
+	_setMouseWheelEvents: function() {
+		var self = this,
+			heapBoxEl = $("div#heapbox_"+this.instance.heapId),
+			heap = heapBoxEl.find('div.heap');
+			
+		heapBoxEl.on('mousewheel',function(event,delta){
+			event.preventDefault();
+			if ( delta == -1 ) {
+				heap.find(".sliderDown")
+					.mousedown()
+					.mouseup();
+			} else {
+				heap.find(".sliderUp")
+					.mousedown()
+					.mouseup();
+			}
+			
+		});	
 	},
 
 	_keyArrowUpHandler:function(heapboxEl){
@@ -566,6 +593,11 @@ HeapBox 0.9.3
 			this._setHeapboxHandlerEvents();
 			this._setKeyboardEvents();
 			this._setSliderEvents();
+			
+			// Mouse Wheel events
+			if ( typeof( $.event.special.mousewheel ) == 'object' ) {
+				this._setMouseWheelEvents();
+			}
 		}
 	},
 	/*
