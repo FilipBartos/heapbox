@@ -748,7 +748,7 @@ HeapBox 0.9.3
 		this._setHolderTitle();
 		this._setHeapboxFocus();
 		this._setSelectedOption($(clickedEl).attr("rel"));
-		this.options.onChange($(clickedEl).attr("rel"));
+		this.options.onChange( $(clickedEl).attr("rel"), $(this.element) );
 	},
 
 
