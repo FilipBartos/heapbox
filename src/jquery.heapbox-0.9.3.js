@@ -55,7 +55,7 @@ HeapBox 0.9.3
 	createInstance: function() {
 
          return {
-	          heapId: Math.round(Math.random() * 99999999),
+	          heapId: $(this.element).attr('id') || Math.round(Math.random() * 99999999),
 		      state: false
 		 };		 
 	 },
@@ -419,7 +419,8 @@ HeapBox 0.9.3
 		var _data = jQuery.parseJSON(data);
 		var selected = false;
 
-		if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
+		// No need to refresh the Select box
+		// if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
 			'class': 'heapOptions'
@@ -537,15 +538,15 @@ HeapBox 0.9.3
     _optionsToJson: function(){
 
     	var options = [];
-
+    	
     	$(this.element).find("option").each(function(){
    
     		options.push({
-    			'value': $(this).attr("value"),
-    			'text': $(this).text(),
-    			'icon': $(this).attr("data-icon-src"),
-    			'disabled': $(this).attr("disabled"),
-    			'selected': $(this).is(":selected") ? "selected":''
+    			'value'		: $(this).attr("value"),
+    			'text'		: $(this).text(),
+    			'icon'		: $(this).attr("data-icon-src"),
+    			'disabled'	: $(this).attr("disabled"),
+    			'selected'	: $(this).is(":selected") ? "selected":''
     		});
 
     	});
@@ -624,6 +625,7 @@ HeapBox 0.9.3
 		$(this.element).find("option").remove();
 
 		$.each(data,function(){
+			
 			option = $('<option/>',{  
               value: this.value,
 			  text: this.text,
