@@ -1,5 +1,5 @@
 /*
-HeapBox 0.9.3
+HeapBox 0.9.4
 (c) 2013 Filip Bartos
 */
 
@@ -17,6 +17,7 @@ HeapBox 0.9.3
         tabindex: 'undefined',
         title: undefined,
         showFirst: true,
+        inheritVisibility: true,
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -33,6 +34,7 @@ HeapBox 0.9.3
         this._name = pluginName;
 	    this.instance;
 	    this.callbackManager = new Array();
+		this.elem_isVisible = '';
         this.init();
     }
 
@@ -55,7 +57,7 @@ HeapBox 0.9.3
 	createInstance: function() {
 
          return {
-	          heapId: Math.round(Math.random() * 99999999),
+	          heapId: $(this.element).attr('id') || Math.round(Math.random() * 99999999),
 		      state: false
 		 };		 
 	 },
@@ -67,7 +69,7 @@ HeapBox 0.9.3
 		var self = this;
 		this._setControlsEvents();
 
-		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});   
+		$(document).on("click", "html", function(e){ e.stopPropagation();self._closeheap(true,function(){},function(){});});
 	},
 
 	_setSliderEvents: function() {
@@ -185,6 +187,31 @@ HeapBox 0.9.3
 	},	
 
 	/*
+	 *	Adds mouse wheel events
+	 *	@require	jquery-mousewheel
+	 *	@see 		https://github.com/brandonaaron/jquery-mousewheel
+	 */
+	_setMouseWheelEvents: function() {
+		var self = this,
+			heapBoxEl = $("div#heapbox_"+this.instance.heapId),
+			heap = heapBoxEl.find('div.heap');
+			
+		heapBoxEl.on('mousewheel',function(event,delta){
+			event.preventDefault();
+			if ( delta == -1 ) {
+				heap.find(".sliderDown")
+					.mousedown()
+					.mouseup();
+			} else {
+				heap.find(".sliderUp")
+					.mousedown()
+					.mouseup();
+			}
+			
+		});	
+	},
+
+	/*
 	 * Find prev selectable heapbox option (ignore disabled)
 	 */
 	_findPrev:function(startItem){
@@ -220,6 +247,11 @@ HeapBox 0.9.3
 			'class': 'heapBox',
 			data: {'sourceElement':this.element}
 		});
+
+		// Set visibility according to original <select> element
+		if ( self.options.inheritVisibility == true && self.elem_isVisible == false ) {
+			heapBoxEl.css('display','none');
+		}
 
 		heapBoxHolderEl = $('<a/>', {  
 	       	href: '',
@@ -286,7 +318,7 @@ HeapBox 0.9.3
 
     _setHeapboxFocus: function()
     {
-    	heapbox = $("div#heapbox_"+this.instance.heapId);
+    	heapbox = $("div#heapbox_"+this.instance.heapId+" .handler");
     	heapbox.focus();
     },
 
@@ -349,7 +381,6 @@ HeapBox 0.9.3
 
     	if(selectedEl.length != 0)
     	{	
-    		//if(holderEl.text().length == 0) holderEl.text(selectedEl.text());
     		if(this.options.title){
     			holderEl.text(this.options.title);
     		}else{
@@ -393,7 +424,8 @@ HeapBox 0.9.3
 		var _data = jQuery.parseJSON(data);
 		var selected = false;
 
-		if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
+		// Right now no need to refresh source select box
+		// if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
 			'class': 'heapOptions'
@@ -569,6 +601,11 @@ HeapBox 0.9.3
 			this._setHeapboxHandlerEvents();
 			this._setKeyboardEvents();
 			this._setSliderEvents();
+
+			// Mouse Wheel events
+			if ( typeof( $.event.special.mousewheel ) == 'object' ) {
+				this._setMouseWheelEvents();
+			}
 		}
 	},
 	/*
@@ -645,7 +682,7 @@ HeapBox 0.9.3
 		heapBoxEl.find(".holder").click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
-			$(this).focus();
+			self._setHeapboxFocus();
 			self._handlerClicked();
 		});
 	},
@@ -661,7 +698,8 @@ HeapBox 0.9.3
 		heapBoxEl.find(".handler").click(function(e){
 			e.preventDefault();
 			e.stopPropagation();
-			$(this).focus();
+			//$(this).focus();
+			self._setHeapboxFocus();
 			self._handlerClicked();
 		});
 	},
@@ -719,7 +757,7 @@ HeapBox 0.9.3
 		this._setHolderTitle();
 		this._setHeapboxFocus();
 		this._setSelectedOption($(clickedEl).attr("rel"));
-		this.options.onChange($(clickedEl).attr("rel"));
+		this.options.onChange($(clickedEl).attr("rel"), $(this.element));
 	},
 
 
@@ -861,7 +899,7 @@ HeapBox 0.9.3
 	/*
 	 * Set own data to heap 
 	 */
-	set: function(data) {
+	set: functiondata) {
 		this._setData(data);
 		this._setHolderTitle();
 		this._setEvents();
@@ -875,6 +913,8 @@ HeapBox 0.9.3
 		this._setDefaultValues();	
 	},
 	_hideSourceElement: function() {
+
+		this.elem_isVisible = $(this.element).is(':visible');
 		$(this.element).css("display","none");
 	},
 	_showSourceElement: function() {
