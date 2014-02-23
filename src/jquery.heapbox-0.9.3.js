@@ -15,6 +15,7 @@ HeapBox 0.9.3
 		heapsize: undefined,
         emptyMessage: 'Empty',
         tabindex: 'undefined',
+        inheritVisibility: true,
 	    openStart: function(){},
 	    openComplete: function(){},
 	    closeStart: function(){},
@@ -31,7 +32,7 @@ HeapBox 0.9.3
         this._name = pluginName;
 	    this.instance;
 	    this.callbackManager = new Array();
-
+		this.elem_isVisible = '';
         this.init();
     }
 
@@ -76,6 +77,7 @@ HeapBox 0.9.3
 
 	    heap = $("#heapbox_"+this.instance.heapId+" .heap");
 	 
+	 	// Slider Down
 	    heap.find(".sliderDown").click(function(e){e.preventDefault();e.stopPropagation();self._setHeapboxFocus();});
 
 	    heap.find(".sliderDown").mousedown(function(e){
@@ -90,6 +92,7 @@ HeapBox 0.9.3
 		    self.scrollingStatus = false;
 	    });
 
+		// Slider Up
 	    heap.find(".sliderUp").click(function(e){e.preventDefault();e.stopPropagation();self._setHeapboxFocus();});
 
 	    heap.find(".sliderUp").mousedown(function(e){
@@ -155,6 +158,31 @@ HeapBox 0.9.3
 			}
 		});
 	
+	},
+	
+	/*
+	 *	Adds mouse wheel events
+	 *	@require	jquery-mousewheel
+	 *	@see 		https://github.com/brandonaaron/jquery-mousewheel
+	 */
+	_setMouseWheelEvents: function() {
+		var self = this,
+			heapBoxEl = $("div#heapbox_"+this.instance.heapId),
+			heap = heapBoxEl.find('div.heap');
+			
+		heapBoxEl.on('mousewheel',function(event,delta){
+			event.preventDefault();
+			if ( delta == -1 ) {
+				heap.find(".sliderDown")
+					.mousedown()
+					.mouseup();
+			} else {
+				heap.find(".sliderUp")
+					.mousedown()
+					.mouseup();
+			}
+			
+		});	
 	},
 
 	_keyArrowUpHandler:function(heapboxEl){
@@ -230,6 +258,11 @@ HeapBox 0.9.3
 			'class': 'heapBox',
 			data: {'sourceElement':this.element}
 		});
+
+		// Set visibility according to original <select> element
+		if ( self.options.inheritVisibility == true && self.elem_isVisible == false ) {
+			heapBoxEl.css('display','none');
+		}
 
 		heapBoxHolderEl = $('<a/>', {  
 	       	href: '',
@@ -386,7 +419,8 @@ HeapBox 0.9.3
 		var _data = jQuery.parseJSON(data);
 		var selected = false;
 
-		if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
+		// No need to refresh the Select box
+		// if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
 			'class': 'heapOptions'
@@ -504,15 +538,15 @@ HeapBox 0.9.3
     _optionsToJson: function(){
 
     	var options = [];
-
+    	
     	$(this.element).find("option").each(function(){
    
     		options.push({
-    			'value': $(this).attr("value"),
-    			'text': $(this).text(),
-    			'icon': $(this).attr("data-icon-src"),
-    			'disabled': $(this).attr("disabled"),
-    			'selected': $(this).is(":selected") ? "selected":''
+    			'value'		: $(this).attr("value"),
+    			'text'		: $(this).text(),
+    			'icon'		: $(this).attr("data-icon-src"),
+    			'disabled'	: $(this).attr("disabled"),
+    			'selected'	: $(this).is(":selected") ? "selected":''
     		});
 
     	});
@@ -560,6 +594,11 @@ HeapBox 0.9.3
 			this._setHeapboxHandlerEvents();
 			this._setKeyboardEvents();
 			this._setSliderEvents();
+			
+			// Mouse Wheel events
+			if ( typeof( $.event.special.mousewheel ) == 'object' ) {
+				this._setMouseWheelEvents();
+			}
 		}
 	},
 	/*
@@ -586,6 +625,7 @@ HeapBox 0.9.3
 		$(this.element).find("option").remove();
 
 		$.each(data,function(){
+			
 			option = $('<option/>',{  
               value: this.value,
 			  text: this.text,
@@ -710,7 +750,7 @@ HeapBox 0.9.3
 		this._setHolderTitle();
 		this._setHeapboxFocus();
 		this._setSelectedOption($(clickedEl).attr("rel"));
-		this.options.onChange($(clickedEl).attr("rel"));
+		this.options.onChange( $(clickedEl).attr("rel"), $(this.element) );
 	},
 
 
@@ -858,6 +898,9 @@ HeapBox 0.9.3
 		this._setDefaultValues();	
 	},
 	_hideSourceElement: function() {
+		
+		// preserve original visibility of the element
+		this.elem_isVisible = $(this.element).is(':visible');
 		$(this.element).css("display","none");
 	},
 	_showSourceElement: function() {
