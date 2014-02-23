@@ -15,8 +15,11 @@ HeapBox 0.9.4
 		heapsize: undefined,
         emptyMessage: 'Empty',
         tabindex: 'undefined',
+<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
         title: undefined,
         showFirst: true,
+=======
+>>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
         inheritVisibility: true,
 	    openStart: function(){},
 	    openComplete: function(){},
@@ -79,6 +82,7 @@ HeapBox 0.9.4
 
 	    heap = $("#heapbox_"+this.instance.heapId+" .heap");
 	 
+	 	// Slider Down
 	    heap.find(".sliderDown").click(function(e){e.preventDefault();e.stopPropagation();self._setHeapboxFocus();});
 
 	    heap.find(".sliderDown").mousedown(function(e){
@@ -93,6 +97,7 @@ HeapBox 0.9.4
 		    self.scrollingStatus = false;
 	    });
 
+		// Slider Up
 	    heap.find(".sliderUp").click(function(e){e.preventDefault();e.stopPropagation();self._setHeapboxFocus();});
 
 	    heap.find(".sliderUp").mousedown(function(e){
@@ -158,6 +163,31 @@ HeapBox 0.9.4
 			}
 		});
 	
+	},
+	
+	/*
+	 *	Adds mouse wheel events
+	 *	@require	jquery-mousewheel
+	 *	@see 		https://github.com/brandonaaron/jquery-mousewheel
+	 */
+	_setMouseWheelEvents: function() {
+		var self = this,
+			heapBoxEl = $("div#heapbox_"+this.instance.heapId),
+			heap = heapBoxEl.find('div.heap');
+			
+		heapBoxEl.on('mousewheel',function(event,delta){
+			event.preventDefault();
+			if ( delta == -1 ) {
+				heap.find(".sliderDown")
+					.mousedown()
+					.mouseup();
+			} else {
+				heap.find(".sliderUp")
+					.mousedown()
+					.mouseup();
+			}
+			
+		});	
 	},
 
 	_keyArrowHandler:function(heapboxEl,direction){
@@ -424,7 +454,11 @@ HeapBox 0.9.4
 		var _data = jQuery.parseJSON(data);
 		var selected = false;
 
+<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
 		// Right now no need to refresh source select box
+=======
+		// No need to refresh the Select box
+>>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 		// if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
@@ -545,15 +579,15 @@ HeapBox 0.9.4
     _optionsToJson: function(){
 
     	var options = [];
-
+    	
     	$(this.element).find("option").each(function(){
    
     		options.push({
-    			'value': $(this).attr("value"),
-    			'text': $(this).text(),
-    			'icon': $(this).attr("data-icon-src"),
-    			'disabled': $(this).attr("disabled"),
-    			'selected': $(this).is(":selected") ? "selected":''
+    			'value'		: $(this).attr("value"),
+    			'text'		: $(this).text(),
+    			'icon'		: $(this).attr("data-icon-src"),
+    			'disabled'	: $(this).attr("disabled"),
+    			'selected'	: $(this).is(":selected") ? "selected":''
     		});
 
     	});
@@ -601,7 +635,11 @@ HeapBox 0.9.4
 			this._setHeapboxHandlerEvents();
 			this._setKeyboardEvents();
 			this._setSliderEvents();
+<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
 
+=======
+			
+>>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 			// Mouse Wheel events
 			if ( typeof( $.event.special.mousewheel ) == 'object' ) {
 				this._setMouseWheelEvents();
@@ -632,6 +670,7 @@ HeapBox 0.9.4
 		$(this.element).find("option").remove();
 
 		$.each(data,function(){
+			
 			option = $('<option/>',{  
               value: this.value,
 			  text: this.text,
@@ -757,7 +796,11 @@ HeapBox 0.9.4
 		this._setHolderTitle();
 		this._setHeapboxFocus();
 		this._setSelectedOption($(clickedEl).attr("rel"));
+<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
 		this.options.onChange($(clickedEl).attr("rel"), $(this.element));
+=======
+		this.options.onChange( $(clickedEl).attr("rel"), $(this.element) );
+>>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 	},
 
 
@@ -913,7 +956,12 @@ HeapBox 0.9.4
 		this._setDefaultValues();	
 	},
 	_hideSourceElement: function() {
+<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
 
+=======
+		
+		// preserve original visibility of the element
+>>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 		this.elem_isVisible = $(this.element).is(':visible');
 		$(this.element).css("display","none");
 	},
