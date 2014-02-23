@@ -15,11 +15,8 @@ HeapBox 0.9.4
 		heapsize: undefined,
         emptyMessage: 'Empty',
         tabindex: 'undefined',
-<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
         title: undefined,
         showFirst: true,
-=======
->>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
         inheritVisibility: true,
 	    openStart: function(){},
 	    openComplete: function(){},
@@ -454,11 +451,8 @@ HeapBox 0.9.4
 		var _data = jQuery.parseJSON(data);
 		var selected = false;
 
-<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
-		// Right now no need to refresh source select box
-=======
+
 		// No need to refresh the Select box
->>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 		// if(this.isSourceElementSelect) this._refreshSourceSelectbox(_data);
 
 		heapBoxheapOptionsEl = $('<ul/>', {  
@@ -635,11 +629,7 @@ HeapBox 0.9.4
 			this._setHeapboxHandlerEvents();
 			this._setKeyboardEvents();
 			this._setSliderEvents();
-<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
 
-=======
-			
->>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 			// Mouse Wheel events
 			if ( typeof( $.event.special.mousewheel ) == 'object' ) {
 				this._setMouseWheelEvents();
@@ -796,11 +786,9 @@ HeapBox 0.9.4
 		this._setHolderTitle();
 		this._setHeapboxFocus();
 		this._setSelectedOption($(clickedEl).attr("rel"));
-<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
-		this.options.onChange($(clickedEl).attr("rel"), $(this.element));
-=======
+
 		this.options.onChange( $(clickedEl).attr("rel"), $(this.element) );
->>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
+
 	},
 
 
@@ -942,7 +930,7 @@ HeapBox 0.9.4
 	/*
 	 * Set own data to heap 
 	 */
-	set: functiondata) {
+	set: function(data) {
 		this._setData(data);
 		this._setHolderTitle();
 		this._setEvents();
@@ -956,12 +944,8 @@ HeapBox 0.9.4
 		this._setDefaultValues();	
 	},
 	_hideSourceElement: function() {
-<<<<<<< HEAD:src/jquery.heapbox-0.9.4.js
 
-=======
-		
 		// preserve original visibility of the element
->>>>>>> Binternet-master:src/jquery.heapbox-0.9.3.js
 		this.elem_isVisible = $(this.element).is(':visible');
 		$(this.element).css("display","none");
 	},
