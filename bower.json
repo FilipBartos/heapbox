@@ -1,7 +1,7 @@
 {
   "name": "heapbox",
   "version": "0.9.4",
-  "main": ["src/jquery.heapbox-0.9.4","themes/dark/css/dark.css"],
+  "main": ["src/jquery.heapbox-0.9.4.min.js","themes/dark/css/dark.css"],
   "description": "Customizable replacement for html select (not only) with events, callbacks, themes and much more.",
   "license": "MIT",
   "ignore": [

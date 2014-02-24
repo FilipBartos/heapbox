@@ -167,12 +167,14 @@ HeapBox 0.9.4
 	 *	@require	jquery-mousewheel
 	 *	@see 		https://github.com/brandonaaron/jquery-mousewheel
 	 */
-	_setMouseWheelEvents: function() {
+	_setMouseWheelEvents:function() {
+		
 		var self = this,
-			heapBoxEl = $("div#heapbox_"+this.instance.heapId),
+			heapBoxEl = $("div#heapbox_"+this.instance.heapId+" .handler"),
 			heap = heapBoxEl.find('div.heap');
 			
 		heapBoxEl.on('mousewheel',function(event,delta){
+			
 			event.preventDefault();
 			if ( delta == -1 ) {
 				heap.find(".sliderDown")
