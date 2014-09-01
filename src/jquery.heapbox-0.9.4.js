@@ -479,7 +479,7 @@ HeapBox 0.9.4
 			        e.stopPropagation();
 				    self._heapChanged(self,this);
 				}
-			});
+			}).addClass(this.classes);
 
 			if(this.disabled) {
 				heapBoxheapOptionAEl.unbind("click");
@@ -583,7 +583,8 @@ HeapBox 0.9.4
     			'text'		: $(this).text(),
     			'icon'		: $(this).attr("data-icon-src"),
     			'disabled'	: $(this).attr("disabled"),
-    			'selected'	: $(this).is(":selected") ? "selected":''
+    			'selected'	: $(this).is(":selected") ? "selected":'',
+    			'classes'	: $(this).attr('class')
     		});
 
     	});
@@ -604,7 +605,8 @@ HeapBox 0.9.4
 			options.push({
     			'value': $(this).attr("rel"),
     			'text': $(this).text(),
-    			'selected': $(this).is(":selected") ? "selected":''
+    			'selected': $(this).is(":selected") ? "selected":'',
+    			'classes' : $(this).attr('class')
     		});
 		});
 
