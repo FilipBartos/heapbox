@@ -1,5 +1,5 @@
 <h1>HeapBox - jQuery &lt;selectbox&gt; (not only) replacement</h1>
-HeapBox is plugin for jQuery that replace native HTML selectboxes in your webpages. HeapBox supports themes, events, callbacks, ajax and much more. See more at <a href="http://www.bartos.me/heapbox" title="HeapBox">www.bartos.me/heapbox</a>.
+HeapBox is plugin for jQuery that replace native HTML selectboxes in your webpages. HeapBox supports themes, events, callbacks, ajax and much more. See more at <a href="https://is.gd/1GdRnV" title="HeapBox">heapbox website</a>.
 
 <h2>Quick install</h2>
 
@@ -40,8 +40,8 @@ Basic heapbox without any configuration.
 $("#mySelect1").heapbox();
 </pre>
 
-See more examples at <a href="http://www.bartos.me/heapbox" title="HeapBox">www.bartos.me/heapbox</a>.
+See more examples at <a href="https://is.gd/1GdRnV" title="HeapBox">HeapBox website</a>.
 
 <h2>About</h2>
 
-Heapbox is created by <a href="http://www.bartos.me" title="Filip Bartos">Filip Bartos</a> and is licensed under <a href="http://www.bartos.me/heapbox/LICENSE" title="MIT LICENSE">MIT</a>.
+Heapbox is created by <a href="http://www.bartos.me" title="Filip Bartos">Filip Bartos</a> and is licensed under <a href="http://drop.bartos.me/data/projects/heapbox/LICENSE" title="MIT LICENSE">MIT</a>.
